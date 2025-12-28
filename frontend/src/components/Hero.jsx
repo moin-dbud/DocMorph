@@ -17,7 +17,7 @@ export default function Hero() {
                 {/* Headline */}
                 <h1 className="mx-auto max-w-4xl text-4xl font-semibold leading-tight sm:text-5xl md:text-6xl">
                     Convert files at{" "}
-                    <span className="bg-gradient-to-r from-indigo-400 to-purple-500 bg-clip-text text-transparent">
+                    <span className="bg-gradient-to from-indigo-400 to-purple-500 bg-clip-text text-transparent">
                         lightspeed
                     </span>
                 </h1>
