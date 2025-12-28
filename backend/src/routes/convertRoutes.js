@@ -1,0 +1,29 @@
+import express from "express";
+import { convertFile } from "../controllers/convertController.js";
+import { requireAuth } from "../middlewares/clerkAuth.js";
+import { upload } from "../middlewares/upload.js";
+
+const router = express.Router();
+
+router.post(
+  "/",
+  requireAuth,
+  upload.single("file"),
+  convertFile
+);
+
+router.get("/status/:jobId", requireAuth, async (req, res) => {
+  const job = await ConversionJob.findById(req.params.jobId);
+
+  if (!job) return res.status(404).json({ message: "Job not found" });
+
+  res.json({
+    status: job.status,
+    progress: job.progress,
+    outputFileName: job.outputFileName,
+    error: job.error,
+  });
+});
+
+
+export default router;
