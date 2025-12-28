@@ -2,7 +2,6 @@ FROM node:18-bullseye
 
 #Install system dependencies
 RUN apt-get update && apt-get install -y \
-    libreoffice \
     poppler-utils \
     fonts-dejavu \
     && rm -rf /var/lib/apt/lists/*

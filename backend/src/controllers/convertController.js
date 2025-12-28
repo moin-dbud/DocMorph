@@ -87,39 +87,52 @@ export const convertFile = async (req, res) => {
     /* =======================
        DOCX → PDF
     ======================= */
-    else if (from === "docx" && to === "pdf") {
-      const before = new Set(fs.readdirSync(OUTPUT_DIR));
+      if (from === "docx" && to === "pdf") {
+  return res.status(403).json({
+    message: "DOCX → PDF is temporarily unavailable in production",
+  });
+}
 
-      await new Promise((resolve, reject) => {
-        exec(
-          `"soffice" --headless --convert-to pdf --outdir "${OUTPUT_DIR}" "${file.path}"`,
-          (err) => (err ? reject(err) : resolve())
-        );
-      });
 
-      await new Promise(r => setTimeout(r, 500));
 
-      const after = fs.readdirSync(OUTPUT_DIR);
-      const newPdf = after.find(
-        f => f.endsWith(".pdf") && !before.has(f)
-      );
 
-      if (!newPdf) {
-        throw new Error("PDF not generated");
-      }
 
-      outputFileName = `${outputId}.pdf`;
-      outputPath = path.join(OUTPUT_DIR, outputFileName);
 
-      fs.renameSync(
-        path.join(OUTPUT_DIR, newPdf),
-        outputPath
-      );
-    }
 
-    else {
-      return res.status(400).json({ message: "Unsupported conversion" });
-    }
+
+    // else if (from === "docx" && to === "pdf") {
+    //   const before = new Set(fs.readdirSync(OUTPUT_DIR));
+
+    //   await new Promise((resolve, reject) => {
+    //     exec(
+    //       `"soffice" --headless --convert-to pdf --outdir "${OUTPUT_DIR}" "${file.path}"`,
+    //       (err) => (err ? reject(err) : resolve())
+    //     );
+    //   });
+
+    //   await new Promise(r => setTimeout(r, 500));
+
+    //   const after = fs.readdirSync(OUTPUT_DIR);
+    //   const newPdf = after.find(
+    //     f => f.endsWith(".pdf") && !before.has(f)
+    //   );
+
+    //   if (!newPdf) {
+    //     throw new Error("PDF not generated");
+    //   }
+
+    //   outputFileName = `${outputId}.pdf`;
+    //   outputPath = path.join(OUTPUT_DIR, outputFileName);
+
+    //   fs.renameSync(
+    //     path.join(OUTPUT_DIR, newPdf),
+    //     outputPath
+    //   );
+    // }
+
+    // else {
+    //   return res.status(400).json({ message: "Unsupported conversion" });
+    // }
 
     // ✅ Verify output exists (prevents download error)
     if (!fs.existsSync(outputPath)) {

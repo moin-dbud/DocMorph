@@ -272,12 +272,12 @@ export default function Convert() {
               onChange={(e) => setConversionType(e.target.value)}
               className="w-full rounded-xl bg-black/40 border border-white/10 px-4 py-3"
             >
-              <option>PDF → JPG</option>
+              <option className="bg-black text-white">PDF → JPG</option>
               {features.allowedFormats.includes("PNG") && (
                 <>
-                  <option>JPG → PNG</option>
-                  <option>PNG → JPG</option>
-                  <option>DOCX → PDF</option>
+                  <option className="bg-black text-white" >JPG → PNG</option>
+                  <option className="bg-black text-white">PNG → JPG</option>
+                  <option className="bg-black text-gray-500" >DOCX → PDF (coming soon) </option>
                 </>
               )}
             </select>
