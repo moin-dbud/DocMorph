@@ -5,7 +5,6 @@ import { v4 as uuid } from "uuid";
 import User from "../models/User.js";
 import Conversion from "../models/Conversion.js";
 import { PLAN_FEATURES } from "../config/plans.js";
-import pdfPoppler from "pdf-poppler";
 import ConversionJob from "../models/ConversionJob.js";
 
 const OUTPUT_DIR = path.join(process.cwd(), "src/output");
@@ -71,17 +70,11 @@ export const convertFile = async (req, res) => {
     /* =======================
        PDF → JPG
     ======================= */
-    else if (from === "pdf" && to === "jpg") {
-      await pdfPoppler.convert(file.path, {
-        format: "jpeg",
-        out_dir: OUTPUT_DIR,
-        out_prefix: outputId,
-        page: 1,
-      });
-
-      outputFileName = `${outputId}-1.jpg`;
-      outputPath = path.join(OUTPUT_DIR, outputFileName);
-    }
+    if (from === "pdf" && to === "jpg") {
+  return res.status(403).json({
+    message: "PDF → JPG is temporarily unavailable. Coming soon 🚀",
+  });
+}
 
     /* =======================
        DOCX → PDF
