@@ -43,7 +43,7 @@ export default function Convert() {
     const fetchCredits = async () => {
       try {
         const token = await getToken();
-        const res = await fetch("http://localhost:5000/api/credits", {
+        const res = await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/credits`, {
           headers: { Authorization: `Bearer ${token}` },
         });
         const data = await res.json();
@@ -76,7 +76,7 @@ export default function Convert() {
       try {
         const token = await getToken();
 
-        const res = await fetch("http://localhost:5000/api/history", {
+        const res = await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/history`, {
           headers: { Authorization: `Bearer ${token}` },
         });
 
@@ -153,7 +153,7 @@ export default function Convert() {
       formData.append("file", file);                 // ✅ real file
       formData.append("conversionType", conversionType);
 
-      const res = await fetch("http://localhost:5000/api/convert", {
+      const res = await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/convert`, {
         method: "POST",
         headers: {
           Authorization: `Bearer ${token}`,          // ✅ NO content-type
