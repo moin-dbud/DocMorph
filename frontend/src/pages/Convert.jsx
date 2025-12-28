@@ -277,7 +277,7 @@ export default function Convert() {
                 <>
                   <option className="bg-black text-white" >JPG → PNG</option>
                   <option className="bg-black text-white">PNG → JPG</option>
-                  <option className="bg-black text-gray-500" >DOCX → PDF (coming soon) </option>
+                  <option disabled className="bg-black text-gray-500" >DOCX → PDF (coming soon) </option>
                 </>
               )}
             </select>

@@ -6,7 +6,6 @@ import User from "../models/User.js";
 import Conversion from "../models/Conversion.js";
 import { PLAN_FEATURES } from "../config/plans.js";
 import pdfPoppler from "pdf-poppler";
-import { exec } from "child_process";
 import ConversionJob from "../models/ConversionJob.js";
 
 const OUTPUT_DIR = path.join(process.cwd(), "src/output");
@@ -87,9 +86,11 @@ export const convertFile = async (req, res) => {
     /* =======================
        DOCX → PDF
     ======================= */
+
+    // diable DOCX to PDF conversion in production
       if (from === "docx" && to === "pdf") {
   return res.status(403).json({
-    message: "DOCX → PDF is temporarily unavailable in production",
+    message: "DOCX → PDF is temporarily unavailable in production. Coming soon!",
   });
 }
 

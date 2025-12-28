@@ -26,11 +26,8 @@ const PORT = process.env.PORT || 5000;
 
 app.use(
   cors({
-    origin: [
-        "http://localhost:5173",
-        "https://docmorph-ai.vercel.app/",
-    ],
-  credentials: true,
+    origin: process.env.FRONTEND_URL,
+    credentials: true,
 }));
 
 app.use(express.json());
