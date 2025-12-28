@@ -11,7 +11,7 @@ export default function Hero() {
 
                 {/* Badge */}
                 <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-1.5 text-sm text-zinc-300 backdrop-blur">
-                    ✨ New: Credit-based file conversion
+                    ✨ New: Credit-based file conversion system
                 </div>
 
                 {/* Headline */}
