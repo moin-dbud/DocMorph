@@ -17,6 +17,7 @@ import adminPaymentsRoutes from "./routes/admin/payments.js";
 import adminConversionsRoutes from "./routes/admin/conversions.js";
 import adminStatsRoutes from "./routes/admin/stats.js";
 import contactRoutes from "./routes/contact.js";
+import adminMessagesRoutes from "./routes/admin/messages.js";
 
 
 
@@ -43,6 +44,8 @@ app.use("/api/admin/users", adminUsersRoutes);
 app.use("/api/admin/payments", adminPaymentsRoutes);
 app.use("/api/admin/conversions", adminConversionsRoutes);
 app.use("/api/admin/stats", adminStatsRoutes);
+app.use("/api/admin/messages", adminMessagesRoutes);
+
 
 
 
