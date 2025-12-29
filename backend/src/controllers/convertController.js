@@ -6,7 +6,7 @@ import User from "../models/User.js";
 import Conversion from "../models/Conversion.js";
 import { PLAN_FEATURES } from "../config/plans.js";
 import ConversionJob from "../models/ConversionJob.js";
-import pdfPoppler from "pdf-poppler";
+import { fromPath } from "pdf2pic";
 
 const OUTPUT_DIR = path.join(process.cwd(), "src/output");
 
@@ -72,39 +72,22 @@ export const convertFile = async (req, res) => {
        PDF → JPG
     ======================= */
     else if (from === "pdf" && to === "jpg") {
-      const outputPrefix = outputId; // pdf-poppler adds page numbers
+      const converter = fromPath(file.path, {
+        density: 150,
+        saveFilename: outputId,
+        savePath: OUTPUT_DIR,
+        format: "jpg",
+        width: 1200,
+        height: 1600,
+      });
 
-      const options = {
-        format: "jpeg",
-        out_dir: OUTPUT_DIR,
-        out_prefix: outputPrefix,
-        page: null,          // convert ALL pages
-        scale: 1024,         // good balance between quality & size
-      };
+      // Convert ONLY first page (MVP)
+      const result = await converter(1);
 
-      await pdfPoppler.convert(file.path, options);
-
-      /**
-       * pdf-poppler output examples:
-       *  <uuid>-1.jpg
-       *  <uuid>-2.jpg
-       */
-      const generatedFiles = fs
-        .readdirSync(OUTPUT_DIR)
-        .filter(f => f.startsWith(outputPrefix) && f.endsWith(".jpg"));
-
-      if (generatedFiles.length === 0) {
-        throw new Error("PDF to JPG conversion failed");
-      }
-
-      /**
-       * MVP decision:
-       * - Return FIRST PAGE only
-       * - (Later you can zip all pages)
-       */
-      outputFileName = generatedFiles[0];
-      outputPath = path.join(OUTPUT_DIR, outputFileName);
+      outputFileName = path.basename(result.path);
+      outputPath = result.path;
     }
+
 
 
     /* =======================
