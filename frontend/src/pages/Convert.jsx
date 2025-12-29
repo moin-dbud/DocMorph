@@ -33,6 +33,8 @@ export default function Convert() {
   // State for download
   const [downloadFile, setDownloadFile] = useState(null);
 
+  const API_BASE = import.meta.env.VITE_API_BASE_URL || "http://localhost:5000";
+
 
   /* =========================
      FETCH CREDITS
@@ -92,29 +94,21 @@ export default function Convert() {
 
   // poll job status
   useEffect(() => {
-    if (!jobId) return;
+  if (!jobId) return;
 
-    const interval = setInterval(async () => {
-      const res = await fetch(`/api/convert/status/${jobId}`, {
-        headers: { Authorization: `Bearer ${token}` },
-      });
-      const data = await res.json();
+  const poll = async () => {
+    const token = await getToken();
+    const res = await fetch(
+      `${API_BASE}/api/convert/status/${jobId}`,
+      { headers: { Authorization: `Bearer ${token}` } }
+    );
+    const data = await res.json();
+  };
 
-      setProgress(data.progress);
-      setJobStatus(data.status);
+  const interval = setInterval(poll, 1000);
+  return () => clearInterval(interval);
+}, [jobId, getToken]);
 
-      if (data.status === "completed") {
-        clearInterval(interval);
-        setDownloadFile(data.outputFileName);
-      }
-
-      if (data.status === "failed") {
-        clearInterval(interval);
-      }
-    }, 1000);
-
-    return () => clearInterval(interval);
-  }, [jobId]);
 
 
 
@@ -306,7 +300,7 @@ export default function Convert() {
               </p>
 
               <a
-                href={`http://localhost:5000/api/download/${encodeURIComponent(downloadFile)}`}
+                href={`${API_BASE}/api/download/${encodeURIComponent(downloadFile)}`}
                 target="_blank"
                 rel="noopener noreferrer"
               >
@@ -406,7 +400,7 @@ export default function Convert() {
                     </span>
 
                     <a
-                      href={`http://localhost:5000/api/download/${item.outputFileName}`}
+                      href={`${API_BASE}/api/download/${item.outputFileName}`}
                       className="text-indigo-400 hover:underline text-xs"
                     >
                       Download
