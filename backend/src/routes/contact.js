@@ -31,11 +31,12 @@ router.post("/", async (req, res) => {
     });
 
     // 2️⃣ Send email to admin
-    await resend.emails.send({
-      from: "DocMorph <no-reply@docmorph.ai>",
-      to: process.env.SUPPORT_EMAIL,
-      subject: subject || "New Contact Message",
-      html: `
+    if (resend) {
+  await resend.emails.send({
+    from: "DocMorph <no-reply@docmorph.ai>",
+    to: process.env.SUPPORT_EMAIL,
+    subject: subject || "New Contact Message",
+    html: `
         <h2>New Contact Message</h2>
         <p><b>Name:</b> ${name}</p>
         <p><b>Email:</b> ${email}</p>
@@ -43,21 +44,13 @@ router.post("/", async (req, res) => {
         <p><b>Message:</b></p>
         <p>${message}</p>
       `,
-    });
-
+  })
+    };
     res.json({ success: true });
   } catch (err) {
     console.error("Contact error:", err);
     res.status(500).json({ message: "Failed to send message" });
   }
-  if (resend) {
-  await resend.emails.send({
-    from: "DocMorph <no-reply@docmorph.ai>",
-    to: process.env.SUPPORT_EMAIL,
-    subject: subject || "New Contact Message",
-    html: `...`,
-  });
-}
 });
 
 export default router;
