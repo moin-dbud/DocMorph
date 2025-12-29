@@ -6,10 +6,12 @@ export default function AdminUsers() {
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(true);
 
+  const API_BASE = import.meta.env.VITE_API_BASE_URL.replace(/\/$/, "");
+
   useEffect(() => {
     const loadUsers = async () => {
       const token = await getToken();
-      const res = await fetch("http://localhost:5000/api/admin/users", {
+      const res = await fetch(`${API_BASE}/api/admin/users`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       const data = await res.json();
@@ -25,7 +27,7 @@ export default function AdminUsers() {
     if (!amount) return;
 
     const token = await getToken();
-    await fetch("http://localhost:5000/api/admin/users/credits", {
+    await fetch(`${API_BASE}/api/admin/users/credits`, {
       method: "POST",
       headers: {
         Authorization: `Bearer ${token}`,

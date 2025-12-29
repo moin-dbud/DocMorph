@@ -7,12 +7,14 @@ export default function AdminDashboard() {
   const [stats, setStats] = useState(null);
   const [loading, setLoading] = useState(true);
 
+  const API_BASE = import.meta.env.VITE_API_BASE_URL.replace(/\/$/, "");
+
   useEffect(() => {
     const fetchStats = async () => {
       try {
         const token = await getToken();
 
-        const res = await fetch("http://localhost:5000/api/admin/stats", {
+        const res = await fetch(`${API_BASE}/api/admin/stats`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -45,7 +47,7 @@ export default function AdminDashboard() {
         <StatCard title="Total Users" value={stats.totalUsers} />
         <StatCard
           title="Total Revenue"
-          value={`₹${(stats.totalRevenue ).toLocaleString()}`}
+          value={`₹${(stats.totalRevenue).toLocaleString()}`}
         />
         <StatCard title="Total Conversions" value={stats.totalConversions} />
       </div>

@@ -6,13 +6,15 @@ export default function AdminConversions() {
   const [conversions, setConversions] = useState([]);
   const [loading, setLoading] = useState(true);
 
+  const API_BASE = import.meta.env.VITE_API_BASE_URL.replace(/\/$/, "");
+
   useEffect(() => {
     const fetchConversions = async () => {
       try {
         const token = await getToken();
 
         const res = await fetch(
-          "http://localhost:5000/api/admin/conversions",
+          `${API_BASE}/api/admin/conversions`,
           {
             headers: { Authorization: `Bearer ${token}` },
           }
