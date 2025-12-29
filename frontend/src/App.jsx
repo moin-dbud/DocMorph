@@ -14,6 +14,7 @@ import AdminPayments from "./pages/admin/PAyments";
 import AdminConversions from "./pages/admin/Conversions";
 import Contact from "./pages/Contact";
 import WhatsAppCTA from "./components/WhatsAppCTA";
+import Messages from "./pages/admin/Messages";
 
 export default function App() {
   return (
@@ -77,6 +78,7 @@ export default function App() {
             <Route index element={<AdminDashboard />} />
             <Route path="dashboard" element={<AdminDashboard />} />
             <Route path="users" element={<AdminUsers />} />
+            <Route path="message" element={<Messages />} />
             <Route path="payments" element={<AdminPayments />} />
             <Route path="conversions" element={<AdminConversions />} />
           </Route>
