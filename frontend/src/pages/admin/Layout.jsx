@@ -19,6 +19,7 @@ export default function AdminLayout() {
         <nav className="space-y-3">
           <AdminLink to="dashboard">Dashboard</AdminLink>
           <AdminLink to="users">Users</AdminLink>
+          <AdminLink to="message">Messages</AdminLink>
           <AdminLink to="payments">Payments</AdminLink>
           <AdminLink to="conversions">Conversions</AdminLink>
         </nav>
