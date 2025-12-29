@@ -36,6 +36,10 @@ router.post("/create-order", requireAuth, async (req, res) => {
     amount: plans[plan].amount,
     currency: "INR",
     receipt: `receipt_${Date.now()}`,
+    notes: {
+      userId: req.user._id.toString(),
+      plan,
+    }
   });
 
   res.json({

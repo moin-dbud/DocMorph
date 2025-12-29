@@ -18,12 +18,17 @@ import adminConversionsRoutes from "./routes/admin/conversions.js";
 import adminStatsRoutes from "./routes/admin/stats.js";
 import contactRoutes from "./routes/contact.js";
 import adminMessagesRoutes from "./routes/admin/messages.js";
-
+import webhooksRoutes from "./routes/webhooks.js";
 
 
 
 const app = express();
 const PORT = process.env.PORT || 5000;
+
+app.use(
+  "/api/webhooks/razorpay",
+  express.raw({ type:"application/json"})
+);
 
 
 app.use(
@@ -45,7 +50,7 @@ app.use("/api/admin/payments", adminPaymentsRoutes);
 app.use("/api/admin/conversions", adminConversionsRoutes);
 app.use("/api/admin/stats", adminStatsRoutes);
 app.use("/api/admin/messages", adminMessagesRoutes);
-
+app.use("/api/webhooks", webhooksRoutes);
 
 
 
