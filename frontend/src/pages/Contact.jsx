@@ -127,7 +127,7 @@ export default function Contact() {
 
         {/* SUPPORT INFO */}
         <div className="text-center text-sm text-zinc-400 space-y-2">
-          <p>📩 Support Email: <span className="text-white">support@docmorph.ai</span></p>
+          <p>📩 Support Email: <span className="text-white">moinsheikh1303@gmail.com</span></p>
           <p>⏱ Typical response time: within 24 hours</p>
           <p>🔐 Your data is always secure and private</p>
         </div>
