@@ -1,6 +1,7 @@
 import express from "express";
 import { Resend } from "resend";
 import ContactMessage from "../models/ContactMessage.js";
+import { contactLimiter } from "../middlewares/rateLimiter.js";
 
 const router = express.Router();
 
@@ -14,7 +15,7 @@ const resend = process.env.RESEND_API_KEY
   : null;
 
 
-router.post("/", async (req, res) => {
+router.post("/", contactLimiter, async (req, res) => {
   try {
     const { name, email, subject, message } = req.body;
 

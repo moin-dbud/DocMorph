@@ -3,6 +3,7 @@ import Razorpay from "razorpay";
 import crypto from "crypto";
 import { requireAuth } from "../middlewares/clerkAuth.js";
 import Payment from "../models/Payment.js"
+import { paymentLimiter } from "../middlewares/rateLimiter.js";
 
 const router = express.Router();
 console.log("RAZORPAY KEY:", process.env.RAZORPAY_KEY_ID);
@@ -18,7 +19,7 @@ const getRazorpayInstance = () => {
 /**
  * Create order
  */
-router.post("/create-order", requireAuth, async (req, res) => {
+router.post("/create-order", requireAuth, paymentLimiter, async (req, res) => {
   const razorpay = getRazorpayInstance();
 
   const { plan } = req.body;
@@ -52,7 +53,7 @@ router.post("/create-order", requireAuth, async (req, res) => {
 /**
  * Verify payment
  */
-router.post("/verify", requireAuth, async (req, res) => {
+router.post("/verify", requireAuth, paymentLimiter, async (req, res) => {
   res.json({
     success: true,
     message: "Payment received. Credits will be added shortly.",

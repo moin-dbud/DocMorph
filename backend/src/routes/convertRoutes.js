@@ -2,12 +2,14 @@ import express from "express";
 import { convertFile } from "../controllers/convertController.js";
 import { requireAuth } from "../middlewares/clerkAuth.js";
 import { upload } from "../middlewares/upload.js";
+import { convertLimiter } from "../middlewares/rateLimiter.js";
 
 const router = express.Router();
 
 router.post(
   "/",
   requireAuth,
+  convertLimiter,
   upload.single("file"),
   convertFile
 );
