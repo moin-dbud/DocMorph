@@ -15,6 +15,8 @@ import AdminConversions from "./pages/admin/Conversions";
 import Contact from "./pages/Contact";
 import WhatsAppCTA from "./components/WhatsAppCTA";
 import Messages from "./pages/admin/Messages";
+import Docs from "./pages/Docs";
+import About from "./pages/About";
 
 export default function App() {
   return (
@@ -72,6 +74,26 @@ export default function App() {
               <Footer />
             </>
             } 
+        />
+        <Route 
+          path="/docs" 
+          element={
+            <>
+              <Navbar />
+              <Docs />
+              <Footer />
+            </>
+          }
+        />
+        <Route
+          path="/about"
+          element={
+            <>
+              <Navbar />
+              <About/>
+              <Footer />
+            </>
+          }
         />
         <Route path="/admin" element={<AdminRoute />}>
           <Route element={<AdminLayout />}>

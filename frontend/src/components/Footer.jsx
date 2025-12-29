@@ -59,11 +59,11 @@ export default function Footer() {
                   Contact
                 </Link>
               </li>
-              <li>
+              {/* <li>
                 <Link to="/careers" className="hover:text-white">
                   Careers
                 </Link>
-              </li>
+              </li> */}
             </ul>
           </div>
 
@@ -79,7 +79,7 @@ export default function Footer() {
                 </Link>
               </li>
               <li>
-                <Link to="/terms" className="hover:text-white">
+                <Link to="/terms-of-service" className="hover:text-white">
                   Terms of Service
                 </Link>
               </li>
