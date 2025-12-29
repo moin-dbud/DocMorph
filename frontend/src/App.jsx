@@ -61,7 +61,16 @@ export default function App() {
             </>
           }
         />
-        <Route path="/contact" element={<Contact />} />
+        <Route 
+          path="/contact-us" 
+          element={
+            <>
+              <Navbar />
+              <Contact />
+              <Footer />
+            </>
+            } 
+        />
         <Route path="/admin" element={<AdminRoute />}>
           <Route element={<AdminLayout />}>
             <Route index element={<AdminDashboard />} />
