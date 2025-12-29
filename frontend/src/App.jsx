@@ -13,6 +13,7 @@ import AdminUsers from "./pages/admin/Users";
 import AdminPayments from "./pages/admin/PAyments";
 import AdminConversions from "./pages/admin/Conversions";
 import Contact from "./pages/Contact";
+import WhatsAppCTA from "./components/WhatsAppCTA";
 
 export default function App() {
   return (
@@ -81,6 +82,9 @@ export default function App() {
           </Route>
         </Route>
       </Routes>
+
+      <WhatsAppCTA />
+
     </BrowserRouter>
 
   );
