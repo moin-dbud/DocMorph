@@ -1,6 +1,6 @@
 import express from "express";
 import ContactMessage from "../../models/ContactMessage.js";
-import isAdmin from "../../middlewares/isAdmin.js";
+import {isAdmin} from "../../middlewares/isAdmin.js";
 
 const router = express.Router();
 

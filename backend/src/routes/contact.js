@@ -3,7 +3,16 @@ import { Resend } from "resend";
 import ContactMessage from "../models/ContactMessage.js";
 
 const router = express.Router();
-const resend = new Resend(process.env.RESEND_API_KEY);
+
+
+if (!process.env.RESEND_API_KEY) {
+  console.error("❌ RESEND_API_KEY is missing");
+}
+
+const resend = process.env.RESEND_API_KEY
+  ? new Resend(process.env.RESEND_API_KEY)
+  : null;
+
 
 router.post("/", async (req, res) => {
   try {
@@ -41,6 +50,14 @@ router.post("/", async (req, res) => {
     console.error("Contact error:", err);
     res.status(500).json({ message: "Failed to send message" });
   }
+  if (resend) {
+  await resend.emails.send({
+    from: "DocMorph <no-reply@docmorph.ai>",
+    to: process.env.SUPPORT_EMAIL,
+    subject: subject || "New Contact Message",
+    html: `...`,
+  });
+}
 });
 
 export default router;
