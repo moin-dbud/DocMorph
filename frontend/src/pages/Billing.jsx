@@ -12,11 +12,13 @@ export default function Billing() {
     const [credits, setCredits] = useState(null);
     const [loading, setLoading] = useState(false);
 
+  const API_BASE = import.meta.env.VITE_API_BASE_URL.replace(/\/$/, "");
+
 
     useEffect(() => {
         const fetchPayments = async () => {
             const token = await getToken();
-            const res = await fetch("http://localhost:5000/api/payment/history", {
+            const res = await fetch(`${API_BASE}/api/payment/history`, {
                 headers: { Authorization: `Bearer ${token}` },
             });
             const data = await res.json();
@@ -33,7 +35,7 @@ export default function Billing() {
     useEffect(() => {
         const fetchBilling = async () => {
             const token = await getToken();
-            const res = await fetch("http://localhost:5000/api/credits", {
+            const res = await fetch(`${API_BASE}/api/credits`, {
                 headers: {
                     Authorization: `Bearer ${token}`,
                 },
@@ -56,7 +58,7 @@ export default function Billing() {
 
             // 1️⃣ Create order
             const res = await fetch(
-                "http://localhost:5000/api/payment/create-order",
+                `${API_BASE}/api/payment/create-order`,
                 {
                     method: "POST",
                     headers: {
@@ -79,7 +81,7 @@ export default function Billing() {
                 order_id: order.orderId,
                 handler: async function (response) {
                     // 3️⃣ Verify payment
-                    await fetch("http://localhost:5000/api/payment/verify", {
+                    await fetch(`${API_BASE}/api/payment/verify`, {
                         method: "POST",
                         headers: {
                             "Content-Type": "application/json",
@@ -215,7 +217,7 @@ export default function Billing() {
                                             <td className="px-4 py-3 text-green-400">Success</td>
                                             <td className="px-4 py-3">
                                                 <a
-                                                    href={`http://localhost:5000/api/invoice/${p._id}`}
+                                                    href={`${API_BASE}/api/invoice/${p._id}`}
                                                     target="_blank"
                                                     rel="noopener noreferrer"
                                                     className="text-indigo-400 hover:underline"
