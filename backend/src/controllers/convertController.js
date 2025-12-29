@@ -6,6 +6,7 @@ import User from "../models/User.js";
 import Conversion from "../models/Conversion.js";
 import { PLAN_FEATURES } from "../config/plans.js";
 import ConversionJob from "../models/ConversionJob.js";
+import pdfPoppler from "pdf-poppler";
 
 const OUTPUT_DIR = path.join(process.cwd(), "src/output");
 
@@ -70,22 +71,52 @@ export const convertFile = async (req, res) => {
     /* =======================
        PDF → JPG
     ======================= */
-    if (from === "pdf" && to === "jpg") {
-  return res.status(403).json({
-    message: "PDF → JPG is temporarily unavailable. Coming soon 🚀",
-  });
-}
+    else if (from === "pdf" && to === "jpg") {
+      const outputPrefix = outputId; // pdf-poppler adds page numbers
+
+      const options = {
+        format: "jpeg",
+        out_dir: OUTPUT_DIR,
+        out_prefix: outputPrefix,
+        page: null,          // convert ALL pages
+        scale: 1024,         // good balance between quality & size
+      };
+
+      await pdfPoppler.convert(file.path, options);
+
+      /**
+       * pdf-poppler output examples:
+       *  <uuid>-1.jpg
+       *  <uuid>-2.jpg
+       */
+      const generatedFiles = fs
+        .readdirSync(OUTPUT_DIR)
+        .filter(f => f.startsWith(outputPrefix) && f.endsWith(".jpg"));
+
+      if (generatedFiles.length === 0) {
+        throw new Error("PDF to JPG conversion failed");
+      }
+
+      /**
+       * MVP decision:
+       * - Return FIRST PAGE only
+       * - (Later you can zip all pages)
+       */
+      outputFileName = generatedFiles[0];
+      outputPath = path.join(OUTPUT_DIR, outputFileName);
+    }
+
 
     /* =======================
        DOCX → PDF
     ======================= */
 
     // diable DOCX to PDF conversion in production
-      if (from === "docx" && to === "pdf") {
-  return res.status(403).json({
-    message: "DOCX → PDF is temporarily unavailable in production. Coming soon!",
-  });
-}
+    if (from === "docx" && to === "pdf") {
+      return res.status(403).json({
+        message: "DOCX → PDF is temporarily unavailable in production. Coming soon!",
+      });
+    }
 
 
 
