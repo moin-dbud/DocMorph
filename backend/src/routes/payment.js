@@ -66,6 +66,16 @@ router.post("/verify", requireAuth, async (req, res) => {
 
     const credits = creditsByPlan[plan];
 
+    const body = razorpay_order_id + "|" + razorpay_payment_id;
+    const expectedSignature = crypto
+      .createHmac("sha256", process.env.RAZORPAY_KEY_SECRET)
+      .update(body)
+      .digest("hex");
+
+    if (expectedSignature !== razorpay_signature) {
+      return res.status(400).json({ message: "Invalid signature" });
+    }
+
     // ✅ 1. Save payment
     await Payment.create({
       userId: req.user._id,      // ✅ FIX
@@ -73,7 +83,7 @@ router.post("/verify", requireAuth, async (req, res) => {
       razorpayPaymentId: razorpay_payment_id,
       plan,
       credits,                   // ✅ FIX
-      amount: plan === "pro" ? 199 : 499,
+      amount: creditsByPlan[plan],
       status: "paid",
     });
 
@@ -95,7 +105,7 @@ router.post("/verify", requireAuth, async (req, res) => {
 
 router.get("/history", requireAuth, async (req, res) => {
   const payments = await Payment.find({
-    clerkUserId: req.user.clerkUserId,
+    userId: req.user._id,
   }).sort({ createdAt: -1 });
 
   console.log("History for:", req.user.clerkUserId);
