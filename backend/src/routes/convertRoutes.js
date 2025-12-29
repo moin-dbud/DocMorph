@@ -3,6 +3,7 @@ import { convertFile } from "../controllers/convertController.js";
 import { requireAuth } from "../middlewares/clerkAuth.js";
 import { upload } from "../middlewares/upload.js";
 import { convertLimiter } from "../middlewares/rateLimiter.js";
+import ConversionJob from "../models/ConversionJob.js";
 
 const router = express.Router();
 

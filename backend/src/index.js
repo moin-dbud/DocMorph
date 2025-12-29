@@ -25,6 +25,8 @@ import { startWorker } from "./workers/index.js";
 const app = express();
 const PORT = process.env.PORT || 5000;
 
+app.set("trust proxy", 1);
+
 app.use(
   "/api/webhooks/razorpay",
   express.raw({ type:"application/json"})

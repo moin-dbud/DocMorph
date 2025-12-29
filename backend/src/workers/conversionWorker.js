@@ -1,19 +1,15 @@
-import fs from "fs";
-import path from "path";
-import sharp from "sharp";
 import ConversionJob from "../models/ConversionJob.js";
 import Conversion from "../models/Conversion.js";
 import User from "../models/User.js";
 import { performConversion } from "../utils/performConversion.js";
-
-const OUTPUT_DIR = path.join(process.cwd(), "src/output");
 
 export const processJob = async (job) => {
   try {
     job.status = "processing";
     await job.save();
 
-    const { outputFileName } = await performConversion(job);
+    // 🔥 Actual conversion happens here
+    const outputFileName = await performConversion(job);
 
     job.status = "completed";
     job.outputFileName = outputFileName;
@@ -36,6 +32,6 @@ export const processJob = async (job) => {
     job.error = err.message;
     await job.save();
 
-    console.error("❌ Conversion failed:", job._id);
+    console.error("❌ Conversion failed:", job._id, err.message);
   }
 };
