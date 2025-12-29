@@ -76,7 +76,7 @@ export default function PricingList() {
             return;
           }
 
-          alert(`Payment successful! You have been credited with ${data.credits} credits.`);
+          alert(`Payment successful! Credits will be added shortly.`);
           window.location.href = `/payment-success?plan=${plan}`;
         } catch (error) {
           console.error("Payment verification error:", error);

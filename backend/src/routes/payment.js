@@ -53,59 +53,12 @@ router.post("/create-order", requireAuth, async (req, res) => {
  * Verify payment
  */
 router.post("/verify", requireAuth, async (req, res) => {
-  try {
-    const {
-      razorpay_order_id,
-      razorpay_payment_id,
-      razorpay_signature,
-      plan,
-    } = req.body;
-
-    // signature verification (already correct)
-
-    const creditsByPlan = {
-      pro: 300,
-      premium: 1000,
-    };
-
-    const credits = creditsByPlan[plan];
-
-    const body = razorpay_order_id + "|" + razorpay_payment_id;
-    const expectedSignature = crypto
-      .createHmac("sha256", process.env.RAZORPAY_KEY_SECRET)
-      .update(body)
-      .digest("hex");
-
-    if (expectedSignature !== razorpay_signature) {
-      return res.status(400).json({ message: "Invalid signature" });
-    }
-
-    // ✅ 1. Save payment
-    await Payment.create({
-      userId: req.user._id,      // ✅ FIX
-      razorpayOrderId: razorpay_order_id,
-      razorpayPaymentId: razorpay_payment_id,
-      plan,
-      credits,                   // ✅ FIX
-      amount: creditsByPlan[plan],
-      status: "paid",
-    });
-
-    // ✅ 2. Update user
-    req.user.credits += credits;
-    req.user.plan = plan;
-    await req.user.save();
-
-    res.json({
-      success: true,
-      credits: req.user.credits,
-      plan: req.user.plan,
-    });
-  } catch (err) {
-    console.error("Payment verify error:", err);
-    res.status(500).json({ message: "Payment verification failed" });
-  }
+  res.json({
+    success: true,
+    message: "Payment received. Credits will be added shortly.",
+  });
 });
+
 
 router.get("/history", requireAuth, async (req, res) => {
   const payments = await Payment.find({
