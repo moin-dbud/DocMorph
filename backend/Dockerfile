@@ -1,9 +1,8 @@
-FROM node:18-bullseye
+FROM node:20-bullseye
 
-#Install system dependencies
+# Install poppler-utils (required for pdf-poppler)
 RUN apt-get update && apt-get install -y \
     poppler-utils \
-    fonts-dejavu \
     && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /app
@@ -14,4 +13,5 @@ RUN npm install
 COPY . .
 
 EXPOSE 5000
+
 CMD ["npm", "start"]
