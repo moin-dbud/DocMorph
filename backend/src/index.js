@@ -19,7 +19,7 @@ import adminStatsRoutes from "./routes/admin/stats.js";
 import contactRoutes from "./routes/contact.js";
 import adminMessagesRoutes from "./routes/admin/messages.js";
 import webhooksRoutes from "./routes/webhooks.js";
-
+import { startWorker } from "./workers/index.js";
 
 
 const app = express();
@@ -56,6 +56,8 @@ app.use("/api/webhooks", webhooksRoutes);
 
 
 connectDB();
+
+startWorker();
 
 app.get("/", (req, res) => {
   res.send("DocMorph backend is running 🚀");

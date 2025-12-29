@@ -17,15 +17,17 @@ router.post(
 router.get("/status/:jobId", requireAuth, async (req, res) => {
   const job = await ConversionJob.findById(req.params.jobId);
 
-  if (!job) return res.status(404).json({ message: "Job not found" });
+  if (!job) {
+    return res.status(404).json({ message: "Job not found" });
+  }
 
   res.json({
     status: job.status,
-    progress: job.progress,
     outputFileName: job.outputFileName,
     error: job.error,
   });
 });
+
 
 
 export default router;

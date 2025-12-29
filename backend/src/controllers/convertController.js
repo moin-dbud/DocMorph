@@ -28,12 +28,9 @@ export const convertFile = async (req, res) => {
     const clerkUserId = req.auth.userId;
     const { conversionType } = req.body;
     const file = req.file;
-
-    if (!file) {
-      return res.status(400).json({ message: "No file uploaded" });
-    }
-
+    
     const user = await User.findOne({ clerkUserId });
+
     if (!user || user.credits <= 0) {
       return res.status(403).json({ message: "Insufficient credits" });
     }
@@ -158,6 +155,7 @@ export const convertFile = async (req, res) => {
       conversionType,
       outputFileName,
       creditsUsed: 1,
+      status: "queued"
     });
 
     // Cleanup uploaded file
@@ -169,6 +167,8 @@ export const convertFile = async (req, res) => {
 
     return res.json({
       success: true,
+      jobId: job._id,
+      message: "Conversion started",
       creditsLeft: user.credits,
       fileName: outputFileName,
       downloadUrl: `/api/download/${outputFileName}`,
