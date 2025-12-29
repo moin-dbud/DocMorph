@@ -299,13 +299,9 @@ export default function Convert() {
               className="w-full rounded-xl bg-black/40 border border-white/10 px-4 py-3"
             >
               <option className="bg-black text-white">PDF → JPG</option>
-              {features.allowedFormats.includes("PNG") && (
-                <>
-                  <option className="bg-black text-white" >JPG → PNG</option>
-                  <option className="bg-black text-white">PNG → JPG</option>
-                  <option disabled className="bg-black text-gray-500" >DOCX → PDF (coming soon) </option>
-                </>
-              )}
+              <option className="bg-black text-white" >JPG → PNG</option>
+              <option className="bg-black text-white">PNG → JPG</option>
+              <option disabled className="bg-black text-gray-500" >DOCX → PDF (coming soon) </option>
             </select>
           </div>
 
