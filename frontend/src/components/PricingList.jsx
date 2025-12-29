@@ -215,7 +215,7 @@ function Plan({ title, price, subtitle, features, cta, popular, plan, onAction }
     <div
       className={`relative rounded-2xl border p-8 transition ${
         popular
-          ? "border-indigo-500/50 bg-gradient-to-b from-indigo-500/10 to-transparent shadow-2xl"
+          ? "border-indigo-500/50 bg-gradient-to-black from-indigo-500/10 to-transparent shadow-2xl"
           : "border-white/10 bg-white/5"
       }`}
     >

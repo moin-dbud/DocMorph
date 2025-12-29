@@ -12,6 +12,7 @@ import AdminDashboard from "./pages/admin/Dashboard";
 import AdminUsers from "./pages/admin/Users";
 import AdminPayments from "./pages/admin/PAyments";
 import AdminConversions from "./pages/admin/Conversions";
+import Contact from "./pages/Contact";
 
 export default function App() {
   return (
@@ -60,6 +61,7 @@ export default function App() {
             </>
           }
         />
+        <Route path="/contact" element={<Contact />} />
         <Route path="/admin" element={<AdminRoute />}>
           <Route element={<AdminLayout />}>
             <Route index element={<AdminDashboard />} />

@@ -16,6 +16,7 @@ import adminUsersRoutes from "./routes/admin/users.js";
 import adminPaymentsRoutes from "./routes/admin/payments.js";
 import adminConversionsRoutes from "./routes/admin/conversions.js";
 import adminStatsRoutes from "./routes/admin/stats.js";
+import contactRoutes from "./routes/contact.js";
 
 
 
@@ -32,6 +33,7 @@ app.use(
 
 app.use(express.json());
 app.use(clerkMiddleware());
+app.use("/api/contact", contactRoutes);
 app.use("/api/download", downloadRoutes);
 app.use("/api/history", historyRoutes);
 app.use("/api/payment", paymentRoutes);
