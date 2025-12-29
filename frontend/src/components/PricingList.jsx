@@ -6,6 +6,8 @@ export default function PricingList() {
   const [billing, setBilling] = useState("monthly");
   const { getToken, isSignedIn } = useAuth();
 
+  const API_BASE = import.meta.env.VITE_API_BASE_URL.replace(/\/$/, "");
+
 
   const handlePayment = async (plan) => {
     if (!isSignedIn) {
@@ -17,7 +19,7 @@ export default function PricingList() {
       const token = await getToken();
 
       // 1️⃣ Create order from backend
-      const res = await fetch("http://localhost:5000/api/payment/create-order", {
+      const res = await fetch(`${API_BASE}/api/payment/create-order`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -49,7 +51,7 @@ export default function PricingList() {
 
           // 3️⃣ Verify payment with backend
           const verifyRes = await fetch(
-            "http://localhost:5000/api/payment/verify",
+            `${API_BASE}/api/payment/verify`,
             {
               method: "POST",
               headers: {
