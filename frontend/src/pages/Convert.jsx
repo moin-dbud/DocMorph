@@ -94,20 +94,20 @@ export default function Convert() {
 
   // poll job status
   useEffect(() => {
-  if (!jobId) return;
+    if (!jobId) return;
 
-  const poll = async () => {
-    const token = await getToken();
-    const res = await fetch(
-      `${API_BASE}/api/convert/status/${jobId}`,
-      { headers: { Authorization: `Bearer ${token}` } }
-    );
-    const data = await res.json();
-  };
+    const poll = async () => {
+      const token = await getToken();
+      const res = await fetch(
+        `${API_BASE}/api/convert/status/${jobId}`,
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
+      const data = await res.json();
+    };
 
-  const interval = setInterval(poll, 1000);
-  return () => clearInterval(interval);
-}, [jobId, getToken]);
+    const interval = setInterval(poll, 1000);
+    return () => clearInterval(interval);
+  }, [jobId, getToken]);
 
 
 
@@ -131,6 +131,38 @@ export default function Convert() {
     setFile(file);
     setStatus("fileSelected");
   };
+
+  // Download logic
+  const handleDownload = async (fileName) => {
+    const token = await getToken();
+
+    const res = await fetch(
+      `${API_BASE}/api/download/${encodeURIComponent(fileName)}`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+
+    if (!res.ok) {
+      alert("Unauthorized or download failed");
+      return;
+    }
+
+    const blob = await res.blob();
+    const url = window.URL.createObjectURL(blob);
+
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = fileName;
+    document.body.appendChild(a);
+    a.click();
+
+    a.remove();
+    window.URL.revokeObjectURL(url);
+  };
+
 
   /* =========================
      CONVERT
@@ -299,13 +331,9 @@ export default function Convert() {
                 ✅ Conversion completed successfully
               </p>
 
-              <a
-                href={`${API_BASE}/api/download/${encodeURIComponent(downloadFile)}`}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
+              <button className="bg-indigo-600 hover:bg-indigo-500 text-white px-4 py-2 rounded-lg" onClick={() => handleDownload(downloadFile)}>
                 ⬇ Download File
-              </a>
+              </button>
 
 
               <div>
